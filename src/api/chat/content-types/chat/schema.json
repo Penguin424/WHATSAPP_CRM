@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "chats",
+  "info": {
+    "singularName": "chat",
+    "pluralName": "chats",
+    "displayName": "chat"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mensajes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::mensaje.mensaje",
+      "mappedBy": "chat"
+    },
+    "cliente": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "chat"
+    },
+    "vendedor": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "chats"
+    },
+    "ultimo": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "name": "cosbiome-crm-backend",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A Strapi application",
+  "scripts": {
+    "develop": "strapi develop",
+    "start": "strapi start",
+    "build": "strapi build",
+    "strapi": "strapi"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "@strapi/plugin-i18n": "4.5.6",
+    "@strapi/plugin-users-permissions": "4.5.6",
+    "@strapi/strapi": "4.5.6",
+    "mysql": "2.18.1",
+    "mysql2": "^3.0.0",
+    "qrcode-terminal": "^0.12.0",
+    "strapi-plugin-io": "^1.1.4",
+    "whatsapp-web.js": "^1.18.4"
+  },
+  "author": {
+    "name": "A Strapi developer"
+  },
+  "strapi": {
+    "uuid": "41e6d86f-f6df-45fa-bfe6-1b23ac38d9b2"
+  },
+  "engines": {
+    "node": ">=14.19.1 <=18.x.x",
+    "npm": ">=6.0.0"
+  },
+  "license": "MIT"
+}

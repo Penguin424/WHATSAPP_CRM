@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "mensajes",
+  "info": {
+    "singularName": "mensaje",
+    "pluralName": "mensajes",
+    "displayName": "mensaje",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "dataWS": {
+      "type": "json",
+      "required": true
+    },
+    "de": {
+      "type": "string",
+      "required": true
+    },
+    "a": {
+      "type": "string",
+      "required": true
+    },
+    "tipo": {
+      "type": "enumeration",
+      "enum": [
+        "ENTRANTE",
+        "ENVIADO"
+      ],
+      "default": "ENTRANTE",
+      "required": true
+    },
+    "cliente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::cliente.cliente",
+      "inversedBy": "mensajes"
+    },
+    "chat": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::chat.chat",
+      "inversedBy": "mensajes"
+    },
+    "body": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

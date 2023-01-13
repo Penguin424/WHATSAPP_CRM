@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "clientes",
+  "info": {
+    "singularName": "cliente",
+    "pluralName": "clientes",
+    "displayName": "cliente"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "telefono": {
+      "type": "string",
+      "required": true
+    },
+    "mensajes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::mensaje.mensaje",
+      "mappedBy": "cliente"
+    },
+    "chat": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::chat.chat",
+      "mappedBy": "cliente"
+    }
+  }
+}
