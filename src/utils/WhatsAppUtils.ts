@@ -3,10 +3,8 @@ import qrcode from "qrcode-terminal";
 
 class WhatsAppUtils {
   public client: Client = new Client({
-    // authStrategy: new LocalAuth({
-    //   clientId: "COSBIOME",
-    // }),
-    authStrategy: new NoAuth(),
+    authStrategy: new LocalAuth(),
+    // authStrategy: new NoAuth(),
   });
 
   private static instance: WhatsAppUtils;
