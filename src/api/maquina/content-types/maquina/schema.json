@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "maquinas",
+  "info": {
+    "singularName": "maquina",
+    "pluralName": "maquinas",
+    "displayName": "maquina"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "urls": {
+      "type": "text",
+      "required": true
+    },
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "descripcion": {
+      "type": "text"
+    },
+    "categoria": {
+      "type": "enumeration",
+      "enum": [
+        "FACIAL",
+        "CORPORAL",
+        "DEPILACION"
+      ],
+      "default": "FACIAL",
+      "required": true
+    }
+  }
+}

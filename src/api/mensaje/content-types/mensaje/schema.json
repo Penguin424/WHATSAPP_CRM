@@ -46,7 +46,7 @@
       "inversedBy": "mensajes"
     },
     "body": {
-      "type": "string",
+      "type": "text",
       "required": true
     }
   }

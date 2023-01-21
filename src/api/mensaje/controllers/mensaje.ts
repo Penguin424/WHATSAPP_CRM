@@ -3,6 +3,7 @@
  */
 
 import { factories } from "@strapi/strapi";
+import { Message, MessageMedia } from "whatsapp-web.js";
 import WhatsAppUtils from "../../../utils/WhatsAppUtils";
 
 interface ICreateMensajeData {
@@ -11,6 +12,7 @@ interface ICreateMensajeData {
   vendedor: number;
   de: string;
   chat: number;
+  isMedia: boolean;
 }
 
 export default factories.createCoreController(
@@ -20,7 +22,15 @@ export default factories.createCoreController(
       try {
         const body = ctx.request.body as ICreateMensajeData;
         const ws = WhatsAppUtils.getInstance();
-        const message = await ws.client.sendMessage(body.a, body.mensaje);
+
+        let message: Message;
+
+        if (body.isMedia) {
+          const media = await MessageMedia.fromUrl(body.mensaje);
+          message = await ws.client.sendMessage(body.a, media);
+        } else {
+          message = await ws.client.sendMessage(body.a, body.mensaje);
+        }
 
         let clientDB: { id: number }[] = await strapi.entityService.findMany(
           "api::cliente.cliente",
@@ -33,6 +43,13 @@ export default factories.createCoreController(
           }
         );
 
+        let msgbody: string;
+        if (body.isMedia) {
+          msgbody = await (await message.downloadMedia()).data;
+        } else {
+          msgbody = message.body;
+        }
+
         const entry = await strapi.entityService.create(
           "api::mensaje.mensaje",
           {
@@ -42,7 +59,7 @@ export default factories.createCoreController(
               a: message.to,
               tipo: "ENVIADO",
               cliente: clientDB[0].id,
-              body: message.body,
+              body: msgbody,
               chat: body.chat,
             },
           }
@@ -55,6 +72,7 @@ export default factories.createCoreController(
             data: {
               ultimo: message.body,
             },
+            populate: ["vendedor", "cliente"],
           }
         );
 
@@ -62,6 +80,8 @@ export default factories.createCoreController(
 
         return ctx.created(entry);
       } catch (error) {
+        console.log(error);
+
         return ctx.badRequest(null, error);
       }
     },

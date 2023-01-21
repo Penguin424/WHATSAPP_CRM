@@ -78,6 +78,13 @@ class WhatsAppUtils {
           client = clientDB[0];
         }
 
+        let bod = "";
+
+        if (message.hasMedia) {
+          const media = await message.downloadMedia();
+          bod = media.data;
+        }
+
         const entry = await strapi.entityService.create(
           "api::mensaje.mensaje",
           {
@@ -87,7 +94,7 @@ class WhatsAppUtils {
               a: message.to,
               tipo: "ENTRANTE",
               cliente: client.id,
-              body: message.body,
+              body: message.hasMedia ? bod : message.body,
             },
           }
         );
@@ -114,6 +121,7 @@ class WhatsAppUtils {
               mensajes: [entry.id],
               ultimo: message.body,
             },
+            populate: ["vendedor", "cliente"],
           });
 
           chat = chatDB;
@@ -128,6 +136,7 @@ class WhatsAppUtils {
                 ultimo: message.body,
                 mensajes: [...chat.mensajes, entry.id],
               },
+              populate: ["vendedor", "cliente"],
             }
           );
 

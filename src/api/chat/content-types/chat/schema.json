@@ -4,7 +4,8 @@
   "info": {
     "singularName": "chat",
     "pluralName": "chats",
-    "displayName": "chat"
+    "displayName": "chat",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -30,7 +31,7 @@
       "inversedBy": "chats"
     },
     "ultimo": {
-      "type": "string",
+      "type": "text",
       "required": true
     }
   }
