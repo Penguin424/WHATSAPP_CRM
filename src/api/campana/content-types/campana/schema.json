@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "campanas",
+  "info": {
+    "singularName": "campana",
+    "pluralName": "campanas",
+    "displayName": "campana",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "claves": {
+      "type": "text"
+    },
+    "etapas": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::etapa.etapa",
+      "mappedBy": "campana"
+    },
+    "chats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chat.chat",
+      "mappedBy": "campana"
+    }
+  }
+}

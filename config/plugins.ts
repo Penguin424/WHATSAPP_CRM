@@ -10,6 +10,8 @@ module.exports = ({ env }) => ({
         mensaje: "*",
         chat: "*",
         cliente: "*",
+        etapa: "*",
+        campana: "*",
       },
       events: [
         {

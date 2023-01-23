@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "etapas",
+  "info": {
+    "singularName": "etapa",
+    "pluralName": "etapas",
+    "displayName": "etapa"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre": {
+      "type": "string",
+      "required": true
+    },
+    "campana": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::campana.campana",
+      "inversedBy": "etapas"
+    },
+    "chats": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::chat.chat",
+      "mappedBy": "etapa"
+    }
+  }
+}

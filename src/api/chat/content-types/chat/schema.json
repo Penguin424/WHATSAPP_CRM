@@ -33,6 +33,18 @@
     "ultimo": {
       "type": "text",
       "required": true
+    },
+    "etapa": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::etapa.etapa",
+      "inversedBy": "chats"
+    },
+    "campana": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::campana.campana",
+      "inversedBy": "chats"
     }
   }
 }
