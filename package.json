@@ -9,7 +9,6 @@
     "build": "strapi build",
     "strapi": "strapi"
   },
-  "devDependencies": {},
   "dependencies": {
     "@strapi/plugin-i18n": "4.5.6",
     "@strapi/plugin-users-permissions": "4.5.6",
@@ -17,6 +16,7 @@
     "mysql": "2.18.1",
     "mysql2": "^3.0.0",
     "qrcode-terminal": "^0.12.0",
+    "strapi-plugin-entity-relationship-chart": "^4.1.0",
     "strapi-plugin-io": "^1.1.4",
     "whatsapp-web.js": "^1.18.4"
   },

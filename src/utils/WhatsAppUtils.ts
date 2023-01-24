@@ -1,10 +1,14 @@
-import { Client, LocalAuth, NoAuth } from "whatsapp-web.js";
+import { Client, LocalAuth } from "whatsapp-web.js";
 import qrcode from "qrcode-terminal";
 
 class WhatsAppUtils {
   public client: Client = new Client({
-    authStrategy: new LocalAuth(),
-    // authStrategy: new NoAuth(),
+    authStrategy: new LocalAuth({
+      clientId: "client-one",
+    }),
+    puppeteer: {
+      args: ["--no-sandbox"],
+    },
   });
 
   private static instance: WhatsAppUtils;
@@ -36,6 +40,10 @@ class WhatsAppUtils {
       WhatsAppUtils.strapi["$io"].raw("qr", qr);
     });
 
+    this.client.on("authenticated", (session) => {
+      console.log("authenticated", session);
+    });
+
     this.client.on("ready", () => {
       console.log("ready");
     });
@@ -43,6 +51,8 @@ class WhatsAppUtils {
     this.client.on("message", async (message) => {
       try {
         if (message.from === "status@broadcast") return;
+
+        const contactoGet = await message.getContact();
 
         let clientDB = await strapi.entityService.findMany(
           "api::cliente.cliente",
@@ -60,10 +70,9 @@ class WhatsAppUtils {
         if (clientDB.length === 0) {
           clientDB = await strapi.entityService.create("api::cliente.cliente", {
             data: {
-              nombre:
-                message.author != null || message.author != undefined
-                  ? message.author
-                  : "Nombre sin registrar",
+              nombre: contactoGet.pushname
+                ? contactoGet.pushname
+                : "Nombre sin registrar",
               telefono: message.from,
             },
           });
@@ -121,7 +130,13 @@ class WhatsAppUtils {
               mensajes: [entry.id],
               ultimo: message.body,
             },
-            populate: ["vendedor", "cliente"],
+            populate: [
+              "vendedor",
+              "cliente",
+              "campana",
+              "etapa",
+              "campana.etapas",
+            ],
           });
 
           chat = chatDB;
@@ -136,7 +151,13 @@ class WhatsAppUtils {
                 ultimo: message.body,
                 mensajes: [...chat.mensajes, entry.id],
               },
-              populate: ["vendedor", "cliente"],
+              populate: [
+                "vendedor",
+                "cliente",
+                "campana",
+                "etapa",
+                "campana.etapas",
+              ],
             }
           );
 

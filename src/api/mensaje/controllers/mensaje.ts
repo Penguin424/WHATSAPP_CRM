@@ -72,7 +72,13 @@ export default factories.createCoreController(
             data: {
               ultimo: message.body,
             },
-            populate: ["vendedor", "cliente"],
+            populate: [
+              "vendedor",
+              "cliente",
+              "campana",
+              "etapa",
+              "campana.etapas",
+            ],
           }
         );
 
