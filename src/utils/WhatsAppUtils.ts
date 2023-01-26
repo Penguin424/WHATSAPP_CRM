@@ -124,11 +124,40 @@ class WhatsAppUtils {
         let chat: { id: number; mensajes: any[] };
 
         if (chatDB.length === 0) {
+          const campanasDB = await strapi.entityService.findMany(
+            "api::campana.campana",
+            {
+              populate: ["etapas"],
+            }
+          );
+
+          const palabrasArray = campanasDB.map((campana) => {
+            return {
+              campanaId: campana.id,
+              firstEtapa: campana.etapas[0].id,
+              palabras: campana.claves.split(","),
+            };
+          });
+
+          const isPalabraFind = palabrasArray.find((palabra) => {
+            return palabra.palabras.find((palabra) => {
+              return message.body.toLowerCase().includes(palabra.toLowerCase());
+            });
+          });
+
+          const datapalabra = isPalabraFind
+            ? {
+                campana: isPalabraFind.campanaId,
+                etapa: isPalabraFind.firstEtapa,
+              }
+            : {};
+
           const chatDB = await strapi.entityService.create("api::chat.chat", {
             data: {
               cliente: client.id,
               mensajes: [entry.id],
               ultimo: message.body,
+              ...datapalabra,
             },
             populate: [
               "vendedor",
