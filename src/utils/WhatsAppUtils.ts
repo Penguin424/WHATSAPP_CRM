@@ -121,7 +121,7 @@ class WhatsAppUtils {
           populate: ["mensajes"],
         });
 
-        let chat: { id: number; mensajes: any[] };
+        let chat: { id: number; mensajes: any[]; noleidos?: number };
 
         if (chatDB.length === 0) {
           const campanasDB = await strapi.entityService.findMany(
@@ -152,11 +152,20 @@ class WhatsAppUtils {
               }
             : {};
 
+          let urlPerfilPhoto = await (
+            await message.getContact()
+          ).getProfilePicUrl();
+
           const chatDB = await strapi.entityService.create("api::chat.chat", {
             data: {
               cliente: client.id,
               mensajes: [entry.id],
               ultimo: message.body,
+              foto: urlPerfilPhoto,
+              noleidos: 1,
+              nota: "",
+              notahistorial: "",
+              fechamarcar: new Date().toISOString(),
               ...datapalabra,
             },
             populate: [
@@ -172,6 +181,11 @@ class WhatsAppUtils {
           WhatsAppUtils.strapi["$io"].emit("api::chat.chat.create", chat);
         } else {
           chat = chatDB[0];
+
+          let urlPerfilPhoto = await (
+            await message.getContact()
+          ).getProfilePicUrl();
+
           const chatDBUP = await strapi.entityService.update(
             "api::chat.chat",
             chat.id,
@@ -179,6 +193,8 @@ class WhatsAppUtils {
               data: {
                 ultimo: message.body,
                 mensajes: [...chat.mensajes, entry.id],
+                foto: urlPerfilPhoto,
+                noleidos: chat.noleidos ? chat.noleidos + 1 : 1,
               },
               populate: [
                 "vendedor",
@@ -195,6 +211,10 @@ class WhatsAppUtils {
       } catch (error) {
         console.log("ERROR", error);
       }
+    });
+
+    this.client.on("disconnected", (reason) => {
+      console.log("disconnected", reason);
     });
   }
 }

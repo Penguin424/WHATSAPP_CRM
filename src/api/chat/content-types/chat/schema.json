@@ -45,6 +45,22 @@
       "relation": "manyToOne",
       "target": "api::campana.campana",
       "inversedBy": "chats"
+    },
+    "foto": {
+      "type": "text"
+    },
+    "noleidos": {
+      "type": "integer",
+      "default": 0
+    },
+    "nota": {
+      "type": "text"
+    },
+    "notahistorial": {
+      "type": "text"
+    },
+    "fechamarcar": {
+      "type": "datetime"
     }
   }
 }
