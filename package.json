@@ -18,7 +18,7 @@
     "qrcode-terminal": "^0.12.0",
     "strapi-plugin-entity-relationship-chart": "^4.1.0",
     "strapi-plugin-io": "^1.1.4",
-    "whatsapp-web.js": "^1.18.4"
+    "whatsapp-web.js": "github:macleysousa/whatsapp-web.js"
   },
   "author": {
     "name": "A Strapi developer"
